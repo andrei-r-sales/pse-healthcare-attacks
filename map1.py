@@ -138,13 +138,13 @@ def make_popup(row, color):
     killed   = int(row.get("Health Workers Killed",  0) or 0)
     injured  = int(row.get("Health Workers Injured", 0) or 0)
     arrested = int(row.get("Health Workers Arrested", 0) or 0)
-    desc     = str(row.get("description_clean", ""))[:300]
+    desc     = str(row.get("description_clean", ""))
+    desc     = desc.replace("_x000D_", " ").replace("\r", " ")
+    desc     = " ".join(desc.split())[:300]
     date     = row["Date"].date() if pd.notna(row["Date"]) else "Unknown"
     weapon   = row.get("Weapon_Category", row.get("Weapon Carried/Used", "Unknown"))
     perp     = row.get("Perpetrator_Simple", row.get("Reported Perpetrator", "Unknown"))
     region   = row.get("Region", row.get("Admin 1", "Unknown"))
-    severity = str(row.get("Severity_Label", "—"))
-    severity = "—" if severity == "nan" else severity
     phase    = row.get("Conflict_Phase", "—")
 
     return folium.Popup(f"""
@@ -161,7 +161,6 @@ def make_popup(row, color):
         <b>Injured:</b> <span style='color:#d4924a'>{injured}</span>
         &nbsp;·&nbsp;
         <b>Arrested:</b> <span style='color:#6b9ab8'>{arrested}</span><br>
-        <b>Severity:</b> {severity}<br>
         <hr style='margin:3px 0;border-color:#444'>
         <span style='color:#ccc'>{desc}</span>
         </div>

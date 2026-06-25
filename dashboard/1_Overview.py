@@ -9,7 +9,8 @@ from utils import load_data, sidebar_filters, get_cross_filtered
 
 st.set_page_config(
     page_title="Palestine Healthcare Attacks",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
 
 st.markdown("""
@@ -19,6 +20,16 @@ st.markdown("""
     [data-testid="stToolbar"] { visibility: hidden; }
     #MainMenu { visibility: hidden; }
     footer { visibility: hidden; }
+    /* Keep the sidebar collapse/expand control visible and clickable
+       so a collapsed sidebar can always be reopened */
+    [data-testid="stSidebarCollapsedControl"] {
+        visibility: visible !important;
+        display: flex !important;
+    }
+    [data-testid="stSidebarCollapseButton"] {
+        visibility: visible !important;
+        display: flex !important;
+    }
     </style>
 """, unsafe_allow_html=True)
 
@@ -380,7 +391,6 @@ st.divider()
 st.caption(
     "Methodology note: 'Health Workers Killed' reflects the dataset's strict WHO definition of health worker, "
     "excluding civil defense and UN staff. Total casualties in individual incidents may exceed recorded counts. "
-    "Over-representation ratio: health workers are ~0.5% of Gaza population but represent 1.69% of deaths (3.4× expected). "
     "Dispersion index = 4.25 (D=1 indicates random; D>1 indicates clustering consistent with deliberate targeting). "
     "Data note: Palestinian Ministry of Health reports 1,581 health workers killed as of July 2025 under a broader "
     "definition. This dataset (770 killed) represents a conservative lower bound using strict WHO criteria."
